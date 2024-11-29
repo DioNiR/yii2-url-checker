@@ -31,6 +31,18 @@ return [
                 ],
             ],
         ],
+
+        'httpClient' => [
+            'class'         => \yii\httpclient\Client::class,
+            'transport'     => \yii\httpclient\CurlTransport::class,
+            'requestConfig' => [
+                'options' => [
+                    CURLOPT_TIMEOUT => 10,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
