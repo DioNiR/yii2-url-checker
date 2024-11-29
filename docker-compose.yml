@@ -43,6 +43,7 @@ services:
       COMPOSER_ALLOW_SUPERUSER: 1
     depends_on: &php_depends_on
       - mysql
+      - rabbitmq
     networks: &php_networks
       net: {}
 
