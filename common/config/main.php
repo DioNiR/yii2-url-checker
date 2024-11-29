@@ -17,5 +17,16 @@ return [
             'password' => getenv('MYSQL_USER'),
             'charset' => 'utf8',
         ],
+
+        'queue' => [
+            'queue' => [
+                'class' => \yii\queue\amqp\Queue::class,
+                'host' => 'localhost',
+                'port' => 5672,
+                'user' => 'guest',
+                'password' => 'guest',
+                'queueName' => 'queue',
+            ],
+        ],
     ],
 ];
