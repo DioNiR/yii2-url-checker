@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\helpers\FlashTrait;
+use frontend\models\forms\CheckUrlForm;
 use yii\web\Controller;
 
 /**
@@ -9,10 +11,12 @@ use yii\web\Controller;
  */
 class SiteController extends Controller
 {
+    use FlashTrait;
+
     /**
      * {@inheritdoc}
      */
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -24,10 +28,16 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return mixed
+     * @return string|\yii\web\Response
      */
-    public function actionIndex()
+    public function actionIndex(): string|\yii\web\Response
     {
-        return $this->render('index');
+        $model = new CheckUrlForm();
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
+            $model->add();
+
+            return $this->flash('success', 'Url added')->redirect(['site/index']);
+        }
+        return $this->render('index', ['model' => $model]);
     }
 }
