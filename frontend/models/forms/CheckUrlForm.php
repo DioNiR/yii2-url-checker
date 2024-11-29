@@ -22,6 +22,7 @@ class CheckUrlForm extends \yii\base\Model
         return [
             ['url', 'required'],
             ['url', 'url'],
+            ['url', 'unique', 'targetAttribute' => ['url']],
             ['test_frequency_minutes', 'integer'],
             ['test_error_repeats', 'integer'],
             ['delay_minutes', 'integer'],

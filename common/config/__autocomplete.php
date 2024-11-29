@@ -21,13 +21,14 @@ class Yii {
 /**
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
+ * @property \yii\queue\amqp_interop\Queue $queue
+ * @property \yii\httpclient\Client $client
  * 
  */
 class __Application {
 }
 
 /**
- * @property app\models\User $identity
  */
 class __WebUser {
 }
