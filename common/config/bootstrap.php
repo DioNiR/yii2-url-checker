@@ -1,5 +1,5 @@
 <?php
-$env = Dotenv\Dotenv::createUnsafeImmutable(dirname(dirname(__DIR__)));
+$env = Dotenv\Dotenv::createUnsafeImmutable(dirname(__DIR__, 2));
 $env->load();
 
 $env->required('APP_FRONTEND_HOST');
@@ -19,6 +19,6 @@ $env->required('MYSQL_PASSWORD');
 $env->required('MYSQL_DATABASE');
 
 Yii::setAlias('@common', dirname(__DIR__));
-Yii::setAlias('@frontend', dirname(dirname(__DIR__)) . '/frontend');
-Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
-Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
+Yii::setAlias('@frontend', dirname(__DIR__, 2) . '/frontend');
+Yii::setAlias('@backend', dirname(__DIR__, 2) . '/backend');
+Yii::setAlias('@console', dirname(__DIR__, 2) . '/console');
