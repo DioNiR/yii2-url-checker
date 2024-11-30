@@ -1,0 +1,1 @@
+* * * * * root /app/docker/check_and_run.sh >> /var/log/cron.log 2>&1
