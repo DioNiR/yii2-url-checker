@@ -1,24 +1,30 @@
 <?php
 
+namespace common\services;
+
 use common\jobs\CheckUrlJob;
+use frontend\models\Url;
+use Yii;
 
 class AddUrlToQueueService
 {
-    protected \models\Url $url;
+    protected Url $url;
 
-    public function __construct(\models\Url $url)
+    public function __construct(Url $url)
     {
         $this->url = $url;
     }
 
-    public function execute(): void
+    public function execute(): ?string
     {
-        Yii::$app->queue->push(new CheckUrlJob(
+        return Yii::$app->queue->push(new CheckUrlJob(
             [
-                'url'                  => $this->url->url,
-                'testFrequencyMinutes' => $this->url->test_frequency_minutes,
-                'attempts'             => $this->url->test_error_repeats,
-                'delay'                => $this->url->delay_minutes * 1000
+                'urlId'    => $this->url->id,
+                'url'      => $this->url->url,
+                'delay'    => $this->url->test_frequency_minutes * 60,
+                'attempts' => 0,
+                'tryDelay' => $this->url->delay_minutes * 60,
+                'maxTries' => $this->url->test_error_repeats
             ]
         ));
     }

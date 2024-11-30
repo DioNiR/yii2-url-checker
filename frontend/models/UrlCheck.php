@@ -1,6 +1,7 @@
 <?php
+namespace frontend\models;
 
-namespace models;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * Class UrlCheck
@@ -23,6 +24,20 @@ class UrlCheck extends \yii\db\ActiveRecord
     public static function tableName(): string
     {
         return '{{%url_checks}}';
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => false,
+            ],
+        ];
     }
 
     /**
