@@ -38,4 +38,5 @@ RUN crontab /app/docker/listen-cron-job
 
 RUN chmod +x docker/php/entrypoint.sh docker/wait-for-it.sh docker/check_and_run.sh
 ENTRYPOINT ["docker/php/entrypoint.sh"]
+CMD ["crontab"]
 CMD ["php-fpm"]

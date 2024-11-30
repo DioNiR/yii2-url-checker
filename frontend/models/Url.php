@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * Relations:
  * @property UrlCheck[] $urlChecks
+ * @property UrlCheck $lastUrlChecks
  */
 class Url extends \yii\db\ActiveRecord
 {
@@ -46,5 +47,10 @@ class Url extends \yii\db\ActiveRecord
     public function getUrlChecks(): \yii\db\ActiveQuery
     {
         return $this->hasMany(UrlCheck::class, ['url_id' => 'id']);
+    }
+
+    public function getLastUrlCheck()
+    {
+        return $this->getUrlChecks()->orderBy(['id' => SORT_DESC])->limit(1)->one();
     }
 }

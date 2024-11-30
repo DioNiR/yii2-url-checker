@@ -10,6 +10,16 @@ class AddUrlToQueueService
 {
     protected Url $url;
 
+    /**
+     * @param $url
+     * @return string|null
+     */
+    public static function addUrlToQueue($url): ?string
+    {
+        $service = new self($url);
+        return $service->add();
+    }
+
     public function __construct(Url $url)
     {
         $this->url = $url;
@@ -17,7 +27,12 @@ class AddUrlToQueueService
 
     public function execute(): ?string
     {
-        return Yii::$app->queue->push(new CheckUrlJob(
+        return $this->add();
+    }
+
+    private function add(): ?string
+    {
+       return Yii::$app->queue->push(new CheckUrlJob(
             [
                 'urlId'    => $this->url->id,
                 'url'      => $this->url->url,
