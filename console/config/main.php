@@ -10,7 +10,7 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue',],
     'controllerNamespace' => 'console\controllers',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -24,15 +24,18 @@ return [
     ],
     'components' => [
         'log' => [
+            'flushInterval' => 1,
+            'traceLevel' => 3,
             'targets' => [
                 [
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
+                    'exportInterval' => 1,
                 ],
             ],
         ],
 
-        'httpClient' => [
+        'client' => [
             'class'         => \yii\httpclient\Client::class,
             'transport'     => \yii\httpclient\CurlTransport::class,
             'requestConfig' => [

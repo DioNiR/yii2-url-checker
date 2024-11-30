@@ -1,6 +1,7 @@
 <?php
+namespace frontend\models;
 
-namespace models;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * Class Url
@@ -17,12 +18,26 @@ namespace models;
  */
 class Url extends \yii\db\ActiveRecord
 {
+
     /**
      * @return string
      */
     public static function tableName(): string
     {
         return '{{%urls}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => 'updated_at',
+            ],
+        ];
     }
 
     /**

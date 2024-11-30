@@ -29,8 +29,9 @@ class SiteController extends Controller
      * Displays homepage.
      *
      * @return string|\yii\web\Response
+     * @throws \yii\db\Exception
      */
-    public function actionIndex(): string|\yii\web\Response
+    public function actionIndex()
     {
         $model = new CheckUrlForm();
         if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
@@ -38,6 +39,7 @@ class SiteController extends Controller
 
             return $this->flash('success', 'Url added')->redirect(['site/index']);
         }
+
         return $this->render('index', ['model' => $model]);
     }
 }

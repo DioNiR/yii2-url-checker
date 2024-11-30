@@ -4,6 +4,7 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'bootstrap' => ['log', 'queue',],
     'vendorPath' => dirname(__DIR__, 2) . '/vendor',
     'components' => [
         'cache' => [
@@ -20,7 +21,12 @@ return [
 
         'queue' => [
             'class' => \yii\queue\amqp_interop\Queue::class,
-            'dsn' => sprintf('amqp://%s:%s@%s:%s/%%2F', getenv('RABBITMQ_USER'), getenv('RABBITMQ_PASSWORD'), getenv('RABBITMQ_HOST'), getenv('RABBITMQ_PORT')),
+            'host' => getenv('RABBITMQ_HOST'),
+            'port' => '5672',
+            'user' => getenv('RABBITMQ_USER'),
+            'password' => getenv('RABBITMQ_PASSWORD'),
+            'queueName' => 'queue',
+            'driver' => yii\queue\amqp_interop\Queue::ENQUEUE_AMQP_LIB,
         ],
     ],
 ];
