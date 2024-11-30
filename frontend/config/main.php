@@ -14,6 +14,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'cookieValidationKey' => getenv('APP_BACKEND_COOKIE_SALT'),
         ],
         'user' => [
             'identityClass' => 'common\models\User',
