@@ -36,6 +36,4 @@ phpunit.phar
 /backend/web/index-test.php
 /backend/web/robots.txt
 
-.env
-
 runtime/*
