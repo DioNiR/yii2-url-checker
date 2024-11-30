@@ -1,53 +1,80 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+use yii\bootstrap5\Html;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'My Yii Application';
 ?>
-<div class="site-index">
 
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
-</div>
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'rowOptions' => function (\frontend\models\Url $model) {
+        return [];
+    },
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'attribute' => 'url',
+            'label' => 'url',
+            'format' => 'html',
+            'value' => function (\frontend\models\Url $model) {
+                return $model->url ?? "";
+            }
+        ],
+        [
+            'attribute' => 'last_status_code',
+            'label' => 'last status code',
+            'format' => 'html',
+            'value' => function (\frontend\models\Url $model) {
+                return $model->lastUrlCheck->status_code ?? "";
+            }
+        ],
+        [
+            'attribute' => 'last_checked_at',
+            'label' => 'last checked at',
+            'format' => 'html',
+            'value' => function (\frontend\models\Url $model) {
+                return Yii::$app->formatter->asDatetime($model->lastUrlCheck->created_at ?? 0);
+            }
+        ],
+        'created_at:datetime',
+        [
+            'class' => ActionColumn::class,
+            'contentOptions' => [
+                'class' => 'text-right nowrap',
+            ],
+            'buttonOptions' => [
+                'class' => 'btn btn-primary ',
+            ],
+            'template' => '{view} {delete}',
+            'buttons' => [
+                'view' => function ($url, \frontend\models\Url $model) {
+                    return Html::a(
+                        'View',
+                        Url::to(['url/view', 'id' => $model->id]),
+                        [
+                            'title' => 'View',
+                            'class' => 'btn btn-warning',
+                        ]
+                    );
+                },
+                'delete' => function ($url, \frontend\models\Url $model) {
+                    return Html::a(
+                        'Delete',
+                        Url::to(['url/delete', 'id' => $model->id]),
+                        [
+                            'title' => 'Delete',
+                            'class' => 'btn btn-danger',
+                            'data-confirm' => 'Are you sure you want to delete this item?', 'data-method' => 'POST'
+                        ]
+                    );
+                },
+            ],
+        ],
+    ],
+]) ?>
