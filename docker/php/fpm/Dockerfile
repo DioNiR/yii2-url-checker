@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     librabbitmq-dev \
-    libxml2-dev
+    libxml2-dev \
+    cron \
+    procps
 
 RUN docker-php-ext-install zip intl mbstring pdo_mysql bcmath \
     && apt-get update \
@@ -31,6 +33,9 @@ RUN docker-php-ext-install zip intl mbstring pdo_mysql bcmath \
 COPY . /app
 WORKDIR /app
 
-RUN chmod +x docker/php/entrypoint.sh docker/wait-for-it.sh
+RUN chmod +x /app/docker/check_and_run.sh
+RUN crontab /app/docker/listen-cron-job
+
+RUN chmod +x docker/php/entrypoint.sh docker/wait-for-it.sh docker/check_and_run.sh
 ENTRYPOINT ["docker/php/entrypoint.sh"]
 CMD ["php-fpm"]

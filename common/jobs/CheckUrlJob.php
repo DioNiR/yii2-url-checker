@@ -11,7 +11,7 @@ use yii\helpers\Json;
 class CheckUrlJob extends BaseObject implements \yii\queue\JobInterface
 {
     public int $urlId;
-    public int $urlCheckId = 0;
+
     public string $url;
 
     public int $delay;
@@ -68,7 +68,7 @@ class CheckUrlJob extends BaseObject implements \yii\queue\JobInterface
             try {
                 if ($this->attempts > 0) {
                     // Если количество попыток не превышено, добавляем задачу в очередь
-                    if ($this->attempts < $this->maxTries) {
+                    if ($this->attempts <= $this->maxTries) {
                         $this->debug('Try again');
                         Yii::$app->queue->delay($this->tryDelay)->push(new self($this->getJobData()));
                     } else {
