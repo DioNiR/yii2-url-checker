@@ -77,4 +77,16 @@ class CheckUrlForm extends Url
         $addUrlToQueueService = new AddUrlToQueueService($url);
         $id = $addUrlToQueueService->execute();
     }
+
+    /**
+     * @return string[]
+     */
+    public function getFrequenciesMinutes(): array
+    {
+        return [
+            '5' => '5 minutes',
+            '10' => '10 minutes',
+            '15' => '15 minutes',
+        ];
+    }
 }

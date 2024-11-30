@@ -14,7 +14,9 @@ $this->title = 'My Yii Application';
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
             <?= $form->field($model, 'url')->textInput(['autofocus' => true]) ?>
-            <?= $form->field($model, 'test_frequency_minutes')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'test_frequency_minutes')->dropDownList(
+                    $model->getFrequenciesMinutes(),
+            ) ?>
             <?= $form->field($model, 'test_error_repeats')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'delay_minutes')->textInput(['autofocus' => true]) ?>
 
